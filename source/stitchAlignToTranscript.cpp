@@ -5,6 +5,7 @@
 #include "binarySearch2.h"
 // #include "stitchGapIndel.cpp"
 
+#include <iostream>
 
 intScore stitchAlignToTranscript(uint rAend, uint gAend, uint rBstart, uint gBstart, uint L, uint iFragB, uint sjAB, Parameters& P, char* R, Genome &mapGen, Transcript *trA, const uint outFilterMismatchNmaxTotal) {
     //stitch together A and B, extend in the gap, returns max score
@@ -14,6 +15,12 @@ intScore stitchAlignToTranscript(uint rAend, uint gAend, uint rBstart, uint gBst
     
     char *G=mapGen.G;
     int Score=0;
+
+    cout << "stitchAlignToTranscript(), param settings: " << endl
+         << "\tP.scoreGapGCAG: " << P.scoreGapGCAG << endl
+         << "\tP.scoreGapATAC: " << P.scoreGapATAC << endl
+         << "\tP.scoreGapNoncan: " << P.scoreGapNoncan << endl << endl; 
+    
 
     if (sjAB!=((uint) -1) && trA->exons[trA->nExons-1][EX_sjA]==sjAB \
             && trA->exons[trA->nExons-1][EX_iFrag]==iFragB && rBstart==rAend+1 && gAend+1<gBstart ) {//simple stitching if junction belongs to a database
@@ -152,7 +159,9 @@ intScore stitchAlignToTranscript(uint rAend, uint gAend, uint rBstart, uint gBst
                         jCan=jCan1;
                         jPen=jPen1;
                     };
-                        jR1++;
+                    cout << jR1 << ", score2: " << Score2 << ", jCan1: " << jCan1 << ", jPen1: " << jPen1 << endl;
+                    
+                    jR1++;
                 } while ( jR1 < int(rBend) - int(rAend) );// - int(P.alignSJoverhangMin) );//TODO: do not need to search the full B-transcript, can stop as soon as Score goes down by more than
 
                 //repeat length: go back and forth around jR to find repeat length
