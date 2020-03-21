@@ -14,11 +14,18 @@ void ReadAlignChunk::processChunks() {//read-map-write chunks
             if (P.runThreadN>1) pthread_mutex_lock(&g_threadChunks.mutexInRead);
 
             uint chunkInSizeBytesTotal[2]={0,0};
-            while (chunkInSizeBytesTotal[0] < P.chunkInSizeBytes && chunkInSizeBytesTotal[1] < P.chunkInSizeBytes && P.inOut->readIn[0].good() && P.inOut->readIn[1].good()) {
+
+            while (chunkInSizeBytesTotal[0] < P.chunkInSizeBytes &&
+              chunkInSizeBytesTotal[1] < P.chunkInSizeBytes &&
+              P.inOut->readIn[0].good() &&
+              P.inOut->readIn[1].good())
+              {
+
                 char nextChar=P.inOut->readIn[0].peek();
                 if (P.iReadAll==P.readMapNumber) {//do not read any more reads
                     break;
                 } else if (P.readFilesTypeN==10 && P.inOut->readIn[0].good() && P.outFilterBySJoutStage!=2) {//SAM input && not eof && not 2nd stage
+                    // SAM input format
 
                     string str1;
 
@@ -91,6 +98,8 @@ void ReadAlignChunk::processChunks() {//read-map-write chunks
                         };
                         readID += ' '+ to_string(P.iReadAll)+' '+passFilterIllumina+' '+to_string(P.readFilesIndex);
 
+                        cerr << "ReadAlignChunk_processChunks:: " << readID << endl;
+                        
                         //ignore the rest of the read name for both mates
                         for (uint imate=0; imate<P.readNmatesIn; imate++)
                             P.inOut->readIn[imate].ignore(DEF_readNameSeqLengthMax,'\n');
@@ -110,6 +119,7 @@ void ReadAlignChunk::processChunks() {//read-map-write chunks
                             P.inOut->readIn[1].ignore(DEF_readNameSeqLengthMax,'\n');//skip to the end of 3rd ("+") line
                             getline(P.inOut->readIn[1],seq1); //read qualities
                             readID += ' ' + seq1;
+
                         };
 
                         //copy the same readID to both mates
@@ -244,4 +254,3 @@ void ReadAlignChunk::processChunks() {//read-map-write chunks
     P.inOut->logMain << "Completed: thread #" <<iThread <<endl;
     if (P.runThreadN>1) pthread_mutex_unlock(&g_threadChunks.mutexLogMain);
 };
-

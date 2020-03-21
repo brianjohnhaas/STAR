@@ -90,7 +90,7 @@ ReadAlignChunk::ReadAlignChunk(Parameters& Pin, Genome &genomeIn, Transcriptome 
         RA->waspRA= new ReadAlign(Pin,genomeIn,TrIn,iChunk);
     };
     if (P.peOverlap.yes) {
-        std::cerr << "/* P.peOverlap.yes */" << '\n';
+        //std::cerr << "/* P.peOverlap.yes */" << '\n';
         RA->peMergeRA= new ReadAlign(Pin,genomeIn,TrIn,iChunk);
         delete RA->peMergeRA->chunkOutChimJunction;
         RA->peMergeRA->chunkOutChimJunction=RA->chunkOutChimJunction;//point to the same out-stream

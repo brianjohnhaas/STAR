@@ -11,6 +11,8 @@ int ReadAlign::mapOneRead() {
         return 0;
     #endif
 
+    cerr << "mapOneRead().  Lread: " << Lread << endl;
+
     revertStrand = false; //the 2nd read is awlays on opposite strand. 1st and 2nd reads have already been reversed.
 
     if (Lread>0) {
@@ -22,13 +24,19 @@ int ReadAlign::mapOneRead() {
         Nsplit=0;
     };
 
+    cerr << "mapOneRead() Nsplit: " << Nsplit << endl;
+
     resetN(); //reset aligns counters to 0
 
     //reset/initialize a transcript
     trInit->reset();
-    trInit->Chr=0;    trInit->Str=0; trInit->roStr=0;    trInit->cStart=0;     trInit->gLength=0; //to generate nice output of 0 for non-mapped reads
-    trInit->iRead=iRead;
-    trInit->Lread=Lread;
+    trInit->Chr=0;
+    trInit->Str=0;
+    trInit->roStr=0;
+    trInit->cStart=0;
+    trInit->gLength=0; //to generate nice output of 0 for non-mapped reads
+    trInit->iRead=iRead; // read counter
+    trInit->Lread=Lread; // super read readLength
     trInit->nExons=0;
     trInit->readLengthOriginal=readLengthOriginal;
     trInit->readLengthPairOriginal=readLengthPairOriginal;
@@ -40,9 +48,9 @@ int ReadAlign::mapOneRead() {
 
     uint seedSearchStartLmax=min(P.seedSearchStartLmax, // 50
                                   (uint) (P.seedSearchStartLmaxOverLread*(Lread-1))); // read length
+
     // align all good pieces
     for (uint ip=0; ip<Nsplit; ip++) {
-
 
         // if the good piece is long, then try multiple times to map it
         uint Nstart = P.seedSearchStartLmax>0 && seedSearchStartLmax<splitR[1][ip] ? splitR[1][ip]/seedSearchStartLmax+1 : 1;

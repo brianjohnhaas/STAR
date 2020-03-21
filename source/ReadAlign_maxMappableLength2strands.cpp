@@ -2,7 +2,8 @@
 #include "SuffixArrayFuns.h"
 #include "ErrorWarning.h"
 
-uint ReadAlign::maxMappableLength2strands(uint pieceStartIn, uint pieceLengthIn, uint iDir, uint iSA1, uint iSA2, uint& maxLbest, uint iFrag) {
+uint ReadAlign::maxMappableLength2strands(uint pieceStartIn, uint pieceLengthIn, uint iDir,
+                                          uint iSA1, uint iSA2, uint& maxLbest, uint iFrag) {
     //returns number of mappings, maxMappedLength=mapped length
     uint Nrep=0, indStartEnd[2], maxL;
 

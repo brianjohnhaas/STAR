@@ -143,7 +143,16 @@ void ReadAlign::storeAligns (uint iDir, uint Shift, uint Nrep, uint L, uint indS
     PC[iP][PC_SAend]  = indStartEnd[1]; //SA index 2
     PC[iP][PC_iFrag]  = iFrag;
 
-    //choose "best" alignment
+    cerr << "ReadAlign_storeAligns.cpp: "
+         << "\tiP=" << iP
+         << "\tPC[iP][PC_rStart]= " << rStart  //alignment read-start
+         << "\tPC[iP][PC_Length]= " << L       //alignment length
+         << "\tPC[iP][PC_Dir] = " << iDir     //direction
+         << "\tPC[iP][PC_Nrep]   = " << Nrep  //repeat number - for both strands
+         << "\tPC[iP][PC_SAstart]= " << indStartEnd[0]  //SA index 1
+         << "\tPC[iP][PC_SAend]  = " << indStartEnd[1]  //SA index 2
+         << "\tPC[iP][PC_iFrag]  = " << iFrag
+         << endl;
 
     if (L<storedLmin) L=storedLmin;
 
