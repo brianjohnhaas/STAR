@@ -20,6 +20,7 @@ void ReadAlign::peOverlapMergeMap() {
 
     if (peOv.nOv==0) {//check if mates can be merged, if not - return
         //cout <<"\n-1\n";
+        cerr << "-no PE read merging..." << endl;
         return;
     };
 
@@ -35,6 +36,7 @@ void ReadAlign::peOverlapMergeMap() {
         //    cout <<P.genomeNumToNT[peMergeRA->Read1[0][ii]];
         //};
         //cout << "\n";
+        cerr << "-mergedPE no windows" << endl;
         return;
     };
 

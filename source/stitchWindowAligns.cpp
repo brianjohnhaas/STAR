@@ -150,11 +150,37 @@ void stitchWindowAligns(uint iA, uint nA, int Score, bool WAincl[], uint tR2, ui
         };
 
         {//check mapped length for each mate
+
+            cerr << "\n# Eval for alignment.  Settings: "
+                 << "P.alignSplicedMateMapLminOverLmate: " << P.alignSplicedMateMapLminOverLmate
+                 << ", P.alignSplicedMateMapLmin: " << P.alignSplicedMateMapLmin
+                 << endl;
+
             uint nsj=0,exl=0;
             for (uint iex=0;iex<trA.nExons;iex++) {//
+                cerr << "EX_L: " << trA.exons[iex][EX_L] << endl;
                 exl+=trA.exons[iex][EX_L];
                 if (iex==trA.nExons-1 || trA.canonSJ[iex]==-3) {//mate is completed, make the checks
-                    if (nsj>0 && (exl<P.alignSplicedMateMapLmin || exl < (uint) (P.alignSplicedMateMapLminOverLmate*RA->readLength[trA.exons[iex][EX_iFrag]])) ) {
+
+                    cerr << " iex=" << iex
+                    <<  ", trA.nExons=" << trA.nExons
+                    << ", nsj:" << nsj
+                    << ", exl:" << exl
+                    << endl;
+
+                    uint alignSplicedMateMapLminOverLmate = (uint) (P.alignSplicedMateMapLminOverLmate * RA->readLength[trA.exons[iex][EX_iFrag]]);
+                    if (nsj>0 &&
+                        (exl<P.alignSplicedMateMapLmin ||
+                         exl < (uint) (P.alignSplicedMateMapLminOverLmate * RA->readLength[trA.exons[iex][EX_iFrag]])) )
+                      {
+                        cerr << "-align not meeting alignSplicedMateMapLmin or alignSplicedMateMapLminOverLmate requirement. "
+                             << " iex=" << iex
+                             <<  ", trA.nExons=" << trA.nExons
+                             << ", nsj:" << nsj
+                             << ", exl:" << exl
+                             << ", alignSplicedMateMapLminOverLmate: " << alignSplicedMateMapLminOverLmate
+                             << ", readLength: " << RA->readLength[trA.exons[iex][EX_iFrag]]
+                             << endl;
                         return; //do not record this transcript
                     };
                     exl=0;nsj=0;
@@ -349,5 +375,3 @@ void stitchWindowAligns(uint iA, uint nA, int Score, bool WAincl[], uint tR2, ui
     };
     return;
 };
-
-

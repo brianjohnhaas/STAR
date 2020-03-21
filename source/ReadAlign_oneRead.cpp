@@ -68,9 +68,12 @@ int ReadAlign::oneRead() {//process one read: load, map, write
     outFilterMismatchNmaxTotal=min(P.outFilterMismatchNmax, (uint) (P.outFilterMismatchNoverReadLmax*(readLength[0]+readLength[1])));
 
     //map the read
+    cerr << "** mapping the read pairs" << endl;
     mapOneRead();
 
+    cerr << "** mapping the mergedPE superread" << endl;
     peOverlapMergeMap();
+
     multMapSelect();
     mappedFilter();
 
