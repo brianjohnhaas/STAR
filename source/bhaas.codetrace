@@ -1,0 +1,40 @@
+STAR.cpp
+	mapThreadsSpawn(P, RAchunk)
+
+mapThreadsSpawn.cpp
+	RAchunk[0]->processChunks();
+    
+ReadAlignChunk.cpp
+	RA = new ReadAlign(P, mapGen, chunkTr, iChunk);
+    RA->peMergeRA= new ReadAlign(Pin,genomeIn,TrIn,iChunk);
+
+ReadAlignChunk_processChunks.cpp::processChunks()
+    mapChunk()
+
+ReadAlignChunk_mapChunk.cpp::mapChunk()
+	RA->oneRead()
+
+ReadAlign_oneRead.cpp::oneRead()
+	-sets up read sequences
+     Read0[ 0 or 1]: actual read sequences
+     Read1[0] contains the numericly converted super-read  (both done by readLoad.cpp)
+     Read1[1] is the revcomp'd super-read
+
+     mapOneRead()
+     peOverlapMergeMap()
+     multMapSelect()
+     mappedFilter()
+
+
+ReadAlign_mapOneRead.cpp::mapOneRead()
+	maxMappableLength2strands()
+
+ReadAlign_maxMappableLength2strands.cpp:
+	maxMappableLength()
+    storeAligns()
+   
+SuffixArrayFuns.cpp:maxMappableLength():
+	-finds max mappable length
+
+ReadAlign_storeAligns.cpp::storeAligns():
+	

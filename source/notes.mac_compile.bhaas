@@ -1,0 +1,6 @@
+
+# for error regarding <csomething>
+gcc -c -O3 bam_cat.c -I/usr/local/Cellar/gcc/8.3.0_2/include/c++/8.3.0/
+
+# at end, add:
+-lstdc++
