@@ -52,6 +52,8 @@ int ReadAlign::mapOneRead() {
     // align all good pieces
     for (uint ip=0; ip<Nsplit; ip++) {
 
+        cerr << "# mapOneRead() searching ip: " << ip << endl;
+
         // if the good piece is long, then try multiple times to map it
         uint Nstart = P.seedSearchStartLmax>0 && seedSearchStartLmax<splitR[1][ip] ? splitR[1][ip]/seedSearchStartLmax+1 : 1;
         uint Lstart = splitR[1][ip]/Nstart;  // length of segment to map.
@@ -109,18 +111,22 @@ int ReadAlign::mapOneRead() {
         mapMarker=MARKER_READ_TOO_SHORT;
         trBest->rLength=0; //min good piece length
         nW=0;
+        cerr << "   * mapOneRead() - MARKER_READ_TOO_SHORT" << endl;
     } else if (Nsplit==0) {//no good pieces
         mapMarker=MARKER_NO_GOOD_PIECES;
         trBest->rLength=splitR[1][0]; //min good piece length
         nW=0;
+        cerr << "    * mapOneRead() - MARKER_NO_GOOD_PIECES" << endl;
     } else if (Nsplit>0 && nA==0) {
         mapMarker=MARKER_ALL_PIECES_EXCEED_seedMultimapNmax;
         trBest->rLength=multNminL;
         nW=0;
+        cerr << "    * mapOneRead() - MARKER_ALL_PIECES_EXCEED_seedMultimapNmax" << endl;
     } else if (Nsplit>0 && nA>0) {//otherwise there are no good pieces, or all pieces map too many times: read cannot be mapped
 //         qsort((void*) PC, nP, sizeof(uint)*PC_SIZE, funCompareUint2);//sort PC by rStart and length
+        cerr << "    mapOneRead() - going to stitchPieces" << endl;
         stitchPieces(Read1, Lread);
     };
-
+    
     return 0;
 };

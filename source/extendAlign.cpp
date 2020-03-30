@@ -3,7 +3,8 @@
 #include "Transcript.h"
 #include "extendAlign.h"
 
-bool extendAlign( char* R, char* G, uint rStart, uint gStart, int dR, int dG, uint L, uint Lprev, uint nMMprev, uint nMMmax, double pMMmax, bool extendToEnd, Transcript* trA ) {
+bool extendAlign( char* R, char* G, uint rStart, uint gStart, int dR, int dG, uint L,
+                  uint Lprev, uint nMMprev, uint nMMmax, double pMMmax, bool extendToEnd, Transcript* trA ) {
 
 // find the maximum score
 
@@ -90,4 +91,3 @@ bool extDone =  trA->extendL > 0;
 return extDone;
 
 };
-

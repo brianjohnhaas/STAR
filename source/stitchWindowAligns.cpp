@@ -105,7 +105,7 @@ void stitchWindowAligns(uint iA, uint nA, int Score, bool WAincl[], uint tR2, ui
                 };
             };
         };
-        if (trA.nExons>1 && trA.sjAnnot[trA.nExons-2]==1 && trA.exons[trA.nExons-1][EX_L] < P.alignSJDBoverhangMin) return; //this exon was not checkedin the cycle above
+        if (trA.nExons>1 && trA.sjAnnot[trA.nExons-2]==1 && trA.exons[trA.nExons-1][EX_L] < P.alignSJDBoverhangMin) return; //this exon was not checked in the cycle above
 
         //filter strand consistency
         uint sjN=0;
@@ -144,14 +144,14 @@ void stitchWindowAligns(uint iA, uint nA, int Score, bool WAincl[], uint tR2, ui
             };
         } else {
             ostringstream errOut;
-            errOut << "EXITING because of FATAL INPUT error: unrecognized value of --outFilterIntronMotifs=" <<P.outFilterIntronMotifs <<"\n";
+            errOut << "EXITING because of FATAL INPUT error: unrecognized value of --outFilterIntronMotifs=" << P.outFilterIntronMotifs <<"\n";
             errOut << "SOLUTION: re-run STAR with --outFilterIntronMotifs = None -OR- RemoveNoncanonical -OR- RemoveNoncanonicalUnannotated\n";
             exitWithError(errOut.str(),std::cerr, P.inOut->logMain, EXIT_CODE_INPUT_FILES, P);
         };
 
         {//check mapped length for each mate
 
-            cerr << "\n# Eval for alignment.  Settings: "
+            cerr << "\n# StitchWindowAligns() Eval for alignment.  Settings: "
                  << "P.alignSplicedMateMapLminOverLmate: " << P.alignSplicedMateMapLminOverLmate
                  << ", P.alignSplicedMateMapLmin: " << P.alignSplicedMateMapLmin
                  << endl;
@@ -162,13 +162,19 @@ void stitchWindowAligns(uint iA, uint nA, int Score, bool WAincl[], uint tR2, ui
                 exl+=trA.exons[iex][EX_L];
                 if (iex==trA.nExons-1 || trA.canonSJ[iex]==-3) {//mate is completed, make the checks
 
-                    cerr << " iex=" << iex
+                    uint alignSplicedMateMapLminOverLmate = (uint) (P.alignSplicedMateMapLminOverLmate * RA->readLength[trA.exons[iex][EX_iFrag]]);
+
+                    cerr << "\tiex=" << iex
                     <<  ", trA.nExons=" << trA.nExons
                     << ", nsj:" << nsj
                     << ", exl:" << exl
+                    << ", readLength: " << RA->readLength[trA.exons[iex][EX_iFrag]]
+                    << ", req alignSplicedMateMapLminOverLmate: " << alignSplicedMateMapLminOverLmate
                     << endl;
 
-                    uint alignSplicedMateMapLminOverLmate = (uint) (P.alignSplicedMateMapLminOverLmate * RA->readLength[trA.exons[iex][EX_iFrag]]);
+                    cerr << "mate: trA.exons[iex][EX_iFrag]: " << trA.exons[iex][EX_iFrag] << endl; // indicates which mate (0,1)
+
+
                     if (nsj>0 &&
                         (exl<P.alignSplicedMateMapLmin ||
                          exl < (uint) (P.alignSplicedMateMapLminOverLmate * RA->readLength[trA.exons[iex][EX_iFrag]])) )

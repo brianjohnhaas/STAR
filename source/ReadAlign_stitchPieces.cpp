@@ -10,7 +10,7 @@
 #include "GlobalVariables.h"
 #include <time.h>
 
-void ReadAlign::stitchPieces(char **R, uint Lread) {
+void ReadAlign::stitchPieces(char **R, uint Lread) { // R = Read1
 
     //zero-out winBin
     memset(winBin[0],255,sizeof(winBin[0][0])*P.winBinN);

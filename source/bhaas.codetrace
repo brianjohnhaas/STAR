@@ -37,4 +37,6 @@ SuffixArrayFuns.cpp:maxMappableLength():
 	-finds max mappable length
 
 ReadAlign_storeAligns.cpp::storeAligns():
-	
+	-populate PC[] with pieces align info
+
+
